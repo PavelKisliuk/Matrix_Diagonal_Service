@@ -36,7 +36,7 @@ public class MatrixFileReader {
 	public List<String> read(String path) throws CustomException {
 		if (path == null ||
 				path.isEmpty() ||
-				path.isBlank() ||
+					path.isBlank() ||
 				Files.notExists(Paths.get(path))) {
 			throw new CustomException();
 		}
