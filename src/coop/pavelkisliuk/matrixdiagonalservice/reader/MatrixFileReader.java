@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * <p>
  *
  * @author Kisliuk Pavel Sergeevich
- * @see
+ * @see coop.pavelkisliuk.matrixdiagonalservice.model.SquareMatrix
  * @since 12.0
  */
 public class MatrixFileReader {
@@ -40,11 +40,13 @@ public class MatrixFileReader {
 				Files.notExists(Paths.get(path))) {
 			throw new CustomException();
 		}
-
+		//----------------------------------------------------------------
 		List<String> data;
 		try (BufferedReader reader = Files.newBufferedReader(Paths.get(path))) {
 			LOGGER.log(Level.TRACE, "Start to read data from file.");
+			//----------------------------------------------------------------
 			data = reader.lines().collect(Collectors.toList());
+			//----------------------------------------------------------------
 			LOGGER.log(Level.DEBUG, "Data red from file.");
 		} catch (FileNotFoundException e) {
 			LOGGER.log(Level.ERROR, "File didn't find", e);
@@ -53,6 +55,7 @@ public class MatrixFileReader {
 			LOGGER.log(Level.ERROR, "Can't read file", e);
 			return new ArrayList<>();
 		}
+		//----------------------------------------------------------------
 		return data;
 	}
 }
