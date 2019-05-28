@@ -11,11 +11,11 @@ public class SquareMatrixCreator {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public SquareMatrix create(List<String> elementGroup) {
-		if(elementGroup == null) {
+		if (elementGroup == null) {
 			LOGGER.log(Level.ERROR, "Creator obtained elementGroup -> " + null);
 			return new SquareMatrix();
 		}
-		if(elementGroup.isEmpty()) {
+		if (elementGroup.isEmpty()) {
 			LOGGER.log(Level.ERROR, "Creator obtained elementGroup -> empty List");
 			return new SquareMatrix();
 		}
@@ -24,7 +24,7 @@ public class SquareMatrixCreator {
 		//----------------------------------------------------------------
 		String[] valueGroup = elementGroup.get(0).split("-");
 		//----------------------------------------------------------------
-		if(valueGroup.length != elementGroup.size()) {
+		if (valueGroup.length != elementGroup.size()) {
 			LOGGER.log(Level.ERROR, "Can't create SquareMatrix -> incorrect number of elements in elementGroup");
 			return new SquareMatrix();
 		}
@@ -33,10 +33,10 @@ public class SquareMatrixCreator {
 		//----------------------------------------------------------------
 		LOGGER.log(Level.DEBUG, "Created square matrix with size: " + valueGroup.length);
 		//----------------------------------------------------------------
-		for(int row = 0; row < valueGroup.length; row++) {
+		for (int row = 0; row < valueGroup.length; row++) {
 			valueGroup = elementGroup.get(row).split("-");
 			//----------------------------------------------------------------
-			for(int column = 0; column < valueGroup.length; column++) {
+			for (int column = 0; column < valueGroup.length; column++) {
 				squareMatrix.setElement(row, column, Integer.parseInt(valueGroup[column]));
 			}
 			//----------------------------------------------------------------
