@@ -37,7 +37,7 @@ public class SquareMatrixCreator {
 			valueGroup = elementGroup.get(row).split("-");
 			//----------------------------------------------------------------
 			for (int column = 0; column < valueGroup.length; column++) {
-				squareMatrix.setElement(row, column, Integer.parseInt(valueGroup[column]));
+				squareMatrix.set(row, column, Integer.parseInt(valueGroup[column]));
 			}
 			//----------------------------------------------------------------
 		}

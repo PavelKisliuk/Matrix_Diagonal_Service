@@ -11,23 +11,23 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 
 public class SquareMatrixCreatorTest {
-	private SquareMatrixCreator squareMatrixCreator = new SquareMatrixCreator();
+	private SquareMatrixCreator creator = new SquareMatrixCreator();
 
 	@Test
 	public void testCreateNull() {
-		assertEquals(squareMatrixCreator.create(null), new SquareMatrix());
+		assertEquals(creator.create(null), new SquareMatrix());
 	}
 
 	@Test
 	public void testCreateEmpty() {
-		assertEquals(squareMatrixCreator.create(new ArrayList<>()), new SquareMatrix());
+		assertEquals(creator.create(new ArrayList<>()), new SquareMatrix());
 	}
 
 	@Test
 	public void testCreateCorrect() throws CustomException {
 		SquareMatrix expected = new SquareMatrix(10);
 		List<String> list = new MatrixFileReader().read("testfile/Square_Matrix.txt");
-		assertEquals(squareMatrixCreator.create(list), expected);
+		assertEquals(creator.create(list), expected);
 	}
 
 	@Test
@@ -35,6 +35,6 @@ public class SquareMatrixCreatorTest {
 		List<String> list = new ArrayList<>();
 		list.add("0-0-0-0-0-0-0");
 		list.add("0-0-0-0-0-0-0");
-		assertEquals(squareMatrixCreator.create(list), new SquareMatrix());
+		assertEquals(creator.create(list), new SquareMatrix());
 	}
 }
