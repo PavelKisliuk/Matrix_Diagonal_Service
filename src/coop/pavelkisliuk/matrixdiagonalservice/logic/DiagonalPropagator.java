@@ -36,7 +36,7 @@ public class DiagonalPropagator implements Runnable {
 		int i = 0;
 		while (i < sharedMatrix.size()) {
 			if (sharedMatrix.get(i, i) == 0) {
-				//LOGGER.log(Level.DEBUG, "empty place is " + i);
+				LOGGER.log(Level.DEBUG, "empty place is " + i);
 				return false;
 			}
 			i++;

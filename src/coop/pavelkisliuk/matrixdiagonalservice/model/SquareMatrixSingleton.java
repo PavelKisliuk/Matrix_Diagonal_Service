@@ -4,6 +4,7 @@ import coop.pavelkisliuk.matrixdiagonalservice.creator.SquareMatrixCreator;
 import coop.pavelkisliuk.matrixdiagonalservice.exception.CustomException;
 import coop.pavelkisliuk.matrixdiagonalservice.reader.MatrixFileReader;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -20,7 +21,11 @@ public enum SquareMatrixSingleton {
 		try {
 			squareMatrixString = new MatrixFileReader().read("testfile/Square_Matrix.txt");
 		} catch (CustomException e) {
-			throw new RuntimeException();
+			String defaultString = "0-0-0-0-0-0-0-0-0-0";
+			squareMatrixString = new ArrayList<>();
+			for(int i = 0; i < 10; i++) {
+				squareMatrixString.add(defaultString);
+			}
 		}
 
 		SquareMatrix tempSquareMatrix = new SquareMatrixCreator().create(squareMatrixString);
