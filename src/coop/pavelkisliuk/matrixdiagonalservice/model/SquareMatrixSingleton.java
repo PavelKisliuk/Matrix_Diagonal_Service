@@ -1,72 +1,86 @@
 package coop.pavelkisliuk.matrixdiagonalservice.model;
 
-import coop.pavelkisliuk.matrixdiagonalservice.creator.SquareMatrixCreator;
-import coop.pavelkisliuk.matrixdiagonalservice.exception.CustomException;
-import coop.pavelkisliuk.matrixdiagonalservice.reader.MatrixFileReader;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 public enum SquareMatrixSingleton {
 	INSTANCE;
 
-	private int[][] squareMatrix;
-	private int size;
-	private static ReentrantLock lock = new ReentrantLock();
+	private Cell[][] squareMatrix;
+	private static final ReentrantLock LOCK = new ReentrantLock();
 
-	SquareMatrixSingleton() {
-		List<String> squareMatrixString;
+	private class Cell {
+		private int value;
 
-		try {
-			squareMatrixString = new MatrixFileReader().read("testfile/Square_Matrix.txt");
-		} catch (CustomException e) {
-			String defaultString = "0-0-0-0-0-0-0-0-0-0";
-			squareMatrixString = new ArrayList<>();
-			for(int i = 0; i < 10; i++) {
-				squareMatrixString.add(defaultString);
+		Cell(int value) {
+			this.value = value;
+		}
+
+		private int getValue() {
+			return value;
+		}
+
+		private boolean setValue(int value) {
+			try {
+				LOCK.lock();
+				if (this.value != 0) {
+					return false;
+				} else {
+					this.value = value;
+					return true;
+				}
+			} finally {
+				LOCK.unlock();
 			}
 		}
 
-		SquareMatrix tempSquareMatrix = new SquareMatrixCreator().create(squareMatrixString);
-		size = tempSquareMatrix.size();
-		squareMatrix = new int[size][size];
+		@Override
+		public String toString() {
+			return String.valueOf(value);
+		}
+	}
 
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				squareMatrix[i][j] = tempSquareMatrix.get(i, j);
+	SquareMatrixSingleton() {
+		init();
+	}
+
+	private void init() {
+		MatrixSpecializeCreator creator = new MatrixSpecializeCreator();
+		SquareMatrix tempMatrix = creator.create();
+
+		squareMatrix = new Cell[tempMatrix.size()][tempMatrix.size()];
+		for (int i = 0; i < squareMatrix.length; i++) {
+			for (int j = 0; j < squareMatrix[i].length; j++) {
+				squareMatrix[i][j] = new Cell(tempMatrix.get(i, j));
 			}
 		}
 	}
 
 	public int get(int row, int column) {
-		return squareMatrix[row][column];
+		if (row < 0 || row > squareMatrix.length ||
+				column < 0 || column > squareMatrix[row].length) {
+			return -1;
+		}
+		return squareMatrix[row][column].getValue();
 	}
 
 	public boolean set(int row, int column, int value) {
-		try {
-			lock.lock();
-			if (squareMatrix[row][column] == 0) {
-				squareMatrix[row][column] = value;
-				return true;
-			} else {
-				return false;
-			}
-		} finally {
-			lock.unlock();
+		if (row < 0 || row > squareMatrix.length ||
+				column < 0 || column > squareMatrix[row].length) {
+			return false;
 		}
+		return squareMatrix[row][column].setValue(value);
 	}
 
 	public int size() {
-		return size;
+		return squareMatrix.length;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				stringBuilder.append(squareMatrix[i][j]).append("-");
+		for (Cell[] matrix : squareMatrix) {
+			for (Cell cell : matrix) {
+				stringBuilder.append(cell).append("-");
 			}
 			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 			stringBuilder.append("\n");
@@ -76,7 +90,7 @@ public enum SquareMatrixSingleton {
 
 	public String toStringDiagonal() {
 		StringBuilder stringBuilder = new StringBuilder();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < squareMatrix.length; i++) {
 			stringBuilder.append(squareMatrix[i][i]).append("-");
 		}
 		stringBuilder.deleteCharAt(stringBuilder.length() - 1);

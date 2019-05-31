@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class DiagonalPropagator implements Runnable {
@@ -13,6 +14,7 @@ public class DiagonalPropagator implements Runnable {
 
 	private int uniqueNumber;
 	private SquareMatrixSingleton sharedMatrix;
+	private Random randomNumber = new SecureRandom();
 
 	public DiagonalPropagator(int uniqueNumber, SquareMatrixSingleton sharedMatrix) {
 		this.uniqueNumber = uniqueNumber;
@@ -21,26 +23,28 @@ public class DiagonalPropagator implements Runnable {
 
 	@Override
 	public void run() {
-		Random randomNumber = new SecureRandom();
-
-		int index;
+		int index = randomNumber.nextInt(sharedMatrix.size());
 		do {
-			index = randomNumber.nextInt(sharedMatrix.size());
 			if (sharedMatrix.set(index, index, uniqueNumber)) {
 				LOGGER.log(Level.DEBUG, "Add in " + (index + 1) + " elmnt value " + uniqueNumber);
+			} else {
+				LOGGER.log(Level.DEBUG, "post addition in " + (index + 1) + " elmnt");
 			}
-		} while (!isDiagonalPropagate());
+		} while ((index = findEmptyCell()) != -1);
 	}
 
-	private boolean isDiagonalPropagate() {
+	private int findEmptyCell() {
+		ArrayList<Integer> emptyCellGroup = new ArrayList<>();
+
 		int i = 0;
 		while (i < sharedMatrix.size()) {
 			if (sharedMatrix.get(i, i) == 0) {
-				LOGGER.log(Level.DEBUG, "empty place is " + i);
-				return false;
+				LOGGER.log(Level.TRACE, "empty place is " + i);
+				emptyCellGroup.add(i);
 			}
 			i++;
 		}
-		return true;
+
+		return !emptyCellGroup.isEmpty() ? emptyCellGroup.get(randomNumber.nextInt(emptyCellGroup.size())) : -1;
 	}
 }

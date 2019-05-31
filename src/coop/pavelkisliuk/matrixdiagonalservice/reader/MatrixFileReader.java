@@ -35,18 +35,15 @@ public class MatrixFileReader {
 	 */
 	public List<String> read(String path) throws CustomException {
 		if (path == null ||
-				path.isEmpty() ||
-					path.isBlank() ||
-						Files.notExists(Paths.get(path))) {
+				path.isBlank() ||
+					Files.notExists(Paths.get(path))) {
 			throw new CustomException();
 		}
-		//----------------------------------------------------------------
+
 		List<String> data;
 		try (BufferedReader reader = Files.newBufferedReader(Paths.get(path))) {
 			LOGGER.log(Level.TRACE, "Start to read data from file.");
-			//----------------------------------------------------------------
 			data = reader.lines().collect(Collectors.toList());
-			//----------------------------------------------------------------
 			LOGGER.log(Level.DEBUG, "Data red from file.");
 		} catch (FileNotFoundException e) {
 			LOGGER.log(Level.ERROR, "File didn't find", e);
@@ -55,7 +52,7 @@ public class MatrixFileReader {
 			LOGGER.log(Level.ERROR, "Can't read file", e);
 			return new ArrayList<>();
 		}
-		//----------------------------------------------------------------
+
 		return data;
 	}
 }

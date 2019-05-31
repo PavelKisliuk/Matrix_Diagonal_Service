@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public class SquareMatrix {
 	private int[][] squareMatrix;
-	private int size;
 
 	public SquareMatrix() {
 		squareMatrix = new int[0][];
@@ -12,19 +11,27 @@ public class SquareMatrix {
 
 	public SquareMatrix(int size) {
 		squareMatrix = new int[size][size];
-		this.size = size;
 	}
 
 	public int get(int row, int column) {
+		if (row < 0 || row > squareMatrix.length ||
+				column < 0 || column > squareMatrix[row].length) {
+			return -1;
+		}
 		return squareMatrix[row][column];
 	}
 
-	public void set(int row, int column, int value) {
+	public boolean set(int row, int column, int value) {
+		if (row < 0 || row > squareMatrix.length ||
+				column < 0 || column > squareMatrix[row].length) {
+			return false;
+		}
 		squareMatrix[row][column] = value;
+		return true;
 	}
 
 	public int size() {
-		return size;
+		return squareMatrix.length;
 	}
 
 	@Override
@@ -46,8 +53,8 @@ public class SquareMatrix {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		for(int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++) {
+		for(int i = 0; i < squareMatrix.length; i++) {
+			for(int j = 0; j < squareMatrix.length; j++) {
 				stringBuilder.append(squareMatrix[i][j]).append("-");
 			}
 			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
@@ -58,7 +65,7 @@ public class SquareMatrix {
 
 	public String toStringDiagonal() {
 		StringBuilder stringBuilder = new StringBuilder();
-		for(int i = 0; i < size; i++) {
+		for(int i = 0; i < squareMatrix.length; i++) {
 			stringBuilder.append(squareMatrix[i][i]).append("-");
 		}
 		stringBuilder.deleteCharAt(stringBuilder.length() - 1);

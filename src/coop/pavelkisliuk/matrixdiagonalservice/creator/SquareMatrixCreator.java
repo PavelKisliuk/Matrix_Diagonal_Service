@@ -19,29 +19,28 @@ public class SquareMatrixCreator {
 			LOGGER.log(Level.ERROR, "Creator obtained elementGroup -> empty List");
 			return new SquareMatrix();
 		}
-		//----------------------------------------------------------------
+
 		LOGGER.log(Level.TRACE, "Start create matrix.");
-		//----------------------------------------------------------------
 		String[] valueGroup = elementGroup.get(0).split("-");
-		//----------------------------------------------------------------
+
 		if (valueGroup.length != elementGroup.size()) {
 			LOGGER.log(Level.ERROR, "Can't create SquareMatrix -> incorrect number of elements in elementGroup");
 			return new SquareMatrix();
 		}
-		//----------------------------------------------------------------
+
 		SquareMatrix squareMatrix = new SquareMatrix(valueGroup.length);
 		//----------------------------------------------------------------
 		LOGGER.log(Level.DEBUG, "Created square matrix with size: " + valueGroup.length);
-		//----------------------------------------------------------------
+
 		for (int row = 0; row < valueGroup.length; row++) {
 			valueGroup = elementGroup.get(row).split("-");
-			//----------------------------------------------------------------
+
 			for (int column = 0; column < valueGroup.length; column++) {
 				squareMatrix.set(row, column, Integer.parseInt(valueGroup[column]));
 			}
-			//----------------------------------------------------------------
+
 		}
-		//----------------------------------------------------------------
+
 		LOGGER.log(Level.DEBUG, "Return created matrix:\n" + squareMatrix.toString());
 		return squareMatrix;
 	}

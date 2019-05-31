@@ -21,13 +21,13 @@ public class UniqueNumberFileReader {
 						Files.notExists(Paths.get(path))) {
 			throw new CustomException();
 		}
-		//----------------------------------------------------------------
+
 		String data;
 		try (BufferedReader reader = Files.newBufferedReader(Paths.get(path))) {
 			LOGGER.log(Level.TRACE, "Start to read data from file.");
-			//----------------------------------------------------------------
+
 			data = reader.readLine();
-			//----------------------------------------------------------------
+
 			LOGGER.log(Level.DEBUG, "Data red from file.");
 		} catch (FileNotFoundException e) {
 			LOGGER.log(Level.ERROR, "File didn't find", e);
@@ -36,7 +36,7 @@ public class UniqueNumberFileReader {
 			LOGGER.log(Level.ERROR, "Can't read file", e);
 			return "";
 		}
-		//----------------------------------------------------------------
+
 		return data;
 	}
 }
