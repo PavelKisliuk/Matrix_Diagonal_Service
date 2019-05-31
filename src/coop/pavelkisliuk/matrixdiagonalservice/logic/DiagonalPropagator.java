@@ -52,19 +52,20 @@ public class DiagonalPropagator implements Runnable {
 			if (sharedMatrix.set(index, index, uniqueNumber)) {
 				LOGGER.log(Level.DEBUG, "Add in " + index + " element value " + uniqueNumber);
 			} else {
-				LOGGER.log(Level.DEBUG, "post addition " + uniqueNumber+ " in " + index + " element");
+				LOGGER.log(Level.DEBUG, "post addition " + uniqueNumber + " in " + index + " element");
 			}
 		} while ((index = findEmptyCell()) != -1);
 	}
 
 	/**
 	 * Return random index of empty (0 in this case) matrix diagonal element.
+	 *
 	 * @return random index of empty (0 in this case) matrix diagonal element.
 	 */
 	private int findEmptyCell() {
 		ArrayList<Integer> emptyCellGroup = new ArrayList<>();
 
-		for(int i = 0; i < sharedMatrix.size(); i++) {
+		for (int i = 0; i < sharedMatrix.size(); i++) {
 			if (sharedMatrix.get(i, i) == 0) {
 				LOGGER.log(Level.TRACE, "empty place is " + i);
 				emptyCellGroup.add(i);
