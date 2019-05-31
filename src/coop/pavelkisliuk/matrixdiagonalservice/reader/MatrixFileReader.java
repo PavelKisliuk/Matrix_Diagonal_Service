@@ -1,5 +1,8 @@
-package coop.pavelkisliuk.matrixdiagonalservice.reader;
+/* By Pavel Kisliuk, 27.05.2019
+ *  This is class for education and nothing rights don't reserved.
+ */
 
+package coop.pavelkisliuk.matrixdiagonalservice.reader;
 
 import coop.pavelkisliuk.matrixdiagonalservice.exception.CustomException;
 import org.apache.logging.log4j.Level;
@@ -16,22 +19,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * The {@code MatrixFileReader} class read special data for {@code SquareMatrix} creation
+ * The {@code MatrixFileReader} class read special data for {@code SquareMatrix} creation.
  * <p>
  *
  * @author Kisliuk Pavel Sergeevich
  * @see coop.pavelkisliuk.matrixdiagonalservice.model.SquareMatrix
+ * @see coop.pavelkisliuk.matrixdiagonalservice.model.SquareMatrixSingleton
  * @since 12.0
  */
 public class MatrixFileReader {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	/**
-	 * Read data from file and return it as {@code List} of {@code String}
+	 * Read data from file and return it as {@code List} of {@code String}.
 	 *
-	 * @param path to file
-	 * @return {@code List} of {@code String} red data
-	 * @throws CustomException if wrong {@param path} or {@param path} is {@code null}
+	 * @param path to file.
+	 * @return {@code List} of {@code String} red data.
+	 * @throws CustomException if wrong {@param path} or {@param path} is {@code null}.
 	 */
 	public List<String> read(String path) throws CustomException {
 		if (path == null ||

@@ -26,9 +26,9 @@ public class DiagonalPropagator implements Runnable {
 		int index = randomNumber.nextInt(sharedMatrix.size());
 		do {
 			if (sharedMatrix.set(index, index, uniqueNumber)) {
-				LOGGER.log(Level.DEBUG, "Add in " + (index + 1) + " elmnt value " + uniqueNumber);
+				LOGGER.log(Level.DEBUG, "Add in " + index + " elmnt value " + uniqueNumber);
 			} else {
-				LOGGER.log(Level.DEBUG, "post addition in " + (index + 1) + " elmnt");
+				LOGGER.log(Level.DEBUG, "post addition in " + index + " elmnt");
 			}
 		} while ((index = findEmptyCell()) != -1);
 	}
