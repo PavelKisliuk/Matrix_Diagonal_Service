@@ -16,9 +16,19 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public static void main(String[] args) throws InterruptedException {
-		Set<Integer> uniqueNumberGroup = createUniqueNumberGroup();
-
+	public static void main(String[] args) {
+		Set<Integer> uniqueNumberGroup;
+		UniqueNumberFileReader reader = new UniqueNumberFileReader();
+		UniqueNumberCreator creator = new UniqueNumberCreator();
+		try {
+			uniqueNumberGroup = creator.create(reader.read("testfile/Unique_Numbers.txt"));
+		} catch (CustomException e) {
+			uniqueNumberGroup = new HashSet<>();
+			for (int i = 0; i < 6; i++) {
+				uniqueNumberGroup.add(i);
+			}
+		}
+		//-------------------------------------------
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		SquareMatrixSingleton matrixSingleton = SquareMatrixSingleton.INSTANCE;
 
@@ -27,23 +37,11 @@ public class Main {
 		}
 
 		executorService.shutdown();
-		executorService.awaitTermination(5, TimeUnit.SECONDS);
-		LOGGER.log(Level.DEBUG, matrixSingleton.toStringDiagonal());
-	}
-
-	private static Set<Integer> createUniqueNumberGroup() {
-		UniqueNumberFileReader reader = new UniqueNumberFileReader();
-		UniqueNumberCreator creator = new UniqueNumberCreator();
-
-		Set<Integer> unique;
 		try {
-			unique = creator.create(reader.read("testfile/Unique_Numbers.txt"));
-		} catch (CustomException e) {
-			unique = new HashSet<>();
-			for (int i = 0; i < 6; i++) {
-				unique.add(i);
-			}
+			executorService.awaitTermination(5, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 		}
-		return unique;
+		LOGGER.log(Level.DEBUG, matrixSingleton.toStringDiagonal());
 	}
 }
